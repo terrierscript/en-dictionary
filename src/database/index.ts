@@ -11,7 +11,7 @@ class Database {
   indexOffsetIndex: Map<number, Index[]>;
 
   data: Data[];
-  dataOffsetIndex: Map<number, Data>;
+  dataOffsetIndex: Map<number, Map<string, Data>>;
   dataLemmaIndex: Map<string, Data[]>;
 
   constructor(path: string) {
@@ -93,7 +93,15 @@ class Database {
       return;
     }
     this.data.push(data);
-    this.dataOffsetIndex.set(data.offset, data);
+    // this.dataOffsetIndex.set(data.offset, data);
+    const exist = this.dataOffsetIndex.get(data.offset)
+    if (exist) {
+      exist.set(data.pos, data)      
+    } else {
+      this.dataOffsetIndex.set(data.offset, new Map([
+        [data.pos, data]
+      ]));
+    }
     data.words.forEach((word) => {
       let output: Data[] = [];
       if (this.dataLemmaIndex.get(word)) {
