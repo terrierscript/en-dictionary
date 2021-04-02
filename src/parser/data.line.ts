@@ -68,6 +68,16 @@ class DataLine {
           const symbol = symbols.get(block.symbol);
           if (symbol !== undefined) {
             block.symbol = symbol;
+          } else {
+            const revPos = configs.reversePos.get(this.line.pos)
+            if (revPos) {
+              const revSymbols = configs.pointerSymbols.get(revPos)
+              const fallbackSymbol = revSymbols?.get(block.symbol)
+              if (fallbackSymbol) {
+                block.symbol = fallbackSymbol
+              }
+            }
+            // console.log("x", this.line.pos, block.symbol, ov)
           }
         }
       }

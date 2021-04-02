@@ -5,6 +5,10 @@ const pos = new Map<string, string>()
   .set("s", "adjective satellite")
   .set("r", "adverb");
 
+const reversePos = new Map(Array.from(pos.entries())
+  .map(([k, v]) => [v, k])
+)
+  
 const pointerSymbolsNoun = new Map<string, string>()
   .set("!", "Antonym")
   .set("@", "Hypernym")
@@ -63,4 +67,4 @@ const pointerSymbols = new Map<string, Map<string, string>>()
   .set("a", pointerSymbolsAdjective)
   .set("r", pointerSymbolsAdverb);
 
-export default { pos, pointerSymbols };
+export default { pos, pointerSymbols, reversePos };
